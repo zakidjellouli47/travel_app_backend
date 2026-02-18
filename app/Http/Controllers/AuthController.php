@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+
 
 class AuthController extends Controller
 {
@@ -18,8 +18,8 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|unique:users,phone|min:10',
-            'email' => 'nullable|email|unique:users,email',
+            'phone' => 'required|string|unique:user,phone|min:10',
+            'email' => 'nullable|email|unique:user,email',
             'password' => 'required|string|min:8',
             'confirm_password' => 'required|same:password',
             'user_type' => 'required|in:passenger,driver',
@@ -166,8 +166,8 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:users,email,' . $request->user()->id,
-            'phone' => 'sometimes|string|unique:users,phone,' . $request->user()->id,
+            'email' => 'sometimes|email|unique:user,email,' . $request->user()->id,
+            'phone' => 'sometimes|string|unique:user,phone,' . $request->user()->id,
         ]);
 
         if ($validator->fails()) {
